@@ -227,7 +227,7 @@ async def handle_message(update, context):
 
 
 def error(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text=f'Update {update}\n\ncaused error\n\n{context.error}')
+    context.bot.send_message(chat_id=391364421, text=f'ERROR:\n\nUpdate:\n {update}\n\ncaused error\n\nContext:\n{context.error}')
     print(f'Update {update} caused error {context.error}')
 
 
