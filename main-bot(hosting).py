@@ -25,8 +25,8 @@ def start_command(update, context):
     global game_type
     global td_option
     mode, game_type, td_option = '', '', ''
-    context.bot.send_message(chat_id=update.effective_chat.id, text='Enter a command to get started', reply_markup=ReplyKeyboardRemove(True))
-    context.bot.send_message(chat_id=update.effective_chat.id, text='Command list is available on the bottom left side of your screen')
+        context.bot.send_message(chat_id=update.effective_chat.id, text='Enter a command to get started', reply_markup=ReplyKeyboardRemove(True))
+    context.bot.send_message(chat_id=update.effective_chat.id, text='Command list is available on the bottom left side of your screen', reply_markup=ReplyKeyboardMarkup([[KeyboardButton('/get')], [KeyboardButton('/game')]]))
     
 def get_command(update, context):
     notify(update, context)
