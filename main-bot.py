@@ -11,7 +11,7 @@ import jokeapi
 import asyncio
 import random
 
-OWNER_ID = 391364421
+OWNER_ID = 
 API_KEY = ''
 mode = ''
 game_type = ''
@@ -35,7 +35,11 @@ def start_command(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text='Enter a command to get started',
                              reply_markup=ReplyKeyboardRemove(True))
     context.bot.send_message(chat_id=update.effective_chat.id,
-                             text='Command list is available on the bottom left side of your screen')
+                             text='Command list is available on the bottom left side of your screen',
+                             reply_markup=ReplyKeyboardMarkup([
+                                 # [KeyboardButton('/start')],
+                                 [KeyboardButton('/get')],
+                                 [KeyboardButton('/game')]]))
 
 
 def get_command(update, context):
@@ -132,11 +136,9 @@ async def handle_message(update, context):
                     match user_msg:
                         case 'start' | 'next':
                             msg = requests.get('https://api.truthordarebot.xyz/api/wyr').json()['question']
-                            context.bot.send_message(chat_id=update.effective_chat.id,
-                                                     text=msg,
+                            context.bot.send_message(chat_id=update.effective_chat.id, text=msg,
                                                      reply_markup=ReplyKeyboardMarkup(
-                                                         [[KeyboardButton('Next')],
-                                                          [KeyboardButton('Back')]]))
+                                                         [[KeyboardButton('Next')], [KeyboardButton('Back')]]))
                         case 'back':
                             context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
                                                      reply_markup=ReplyKeyboardRemove(True))
@@ -145,11 +147,9 @@ async def handle_message(update, context):
                     match user_msg:
                         case 'start' | 'next':
                             msg = requests.get('https://api.truthordarebot.xyz/api/nhie').json()['question']
-                            context.bot.send_message(chat_id=update.effective_chat.id,
-                                                     text=msg,
+                            context.bot.send_message(chat_id=update.effective_chat.id, text=msg,
                                                      reply_markup=ReplyKeyboardMarkup(
-                                                         [[KeyboardButton('Next')],
-                                                          [KeyboardButton('Back')]]))
+                                                         [[KeyboardButton('Next')], [KeyboardButton('Back')]]))
                         case 'back':
                             context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
                                                      reply_markup=ReplyKeyboardRemove(True))
@@ -158,11 +158,9 @@ async def handle_message(update, context):
                     match user_msg:
                         case 'start' | 'next':
                             msg = requests.get('https://api.truthordarebot.xyz/api/paranoia').json()['question']
-                            context.bot.send_message(chat_id=update.effective_chat.id,
-                                                     text=msg,
+                            context.bot.send_message(chat_id=update.effective_chat.id, text=msg,
                                                      reply_markup=ReplyKeyboardMarkup(
-                                                         [[KeyboardButton('Next')],
-                                                          [KeyboardButton('Back')]]))
+                                                         [[KeyboardButton('Next')], [KeyboardButton('Back')]]))
                         case 'back':
                             context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
                                                      reply_markup=ReplyKeyboardRemove(True))
@@ -172,8 +170,7 @@ async def handle_message(update, context):
                                              reply_markup=ReplyKeyboardRemove(True))
                 # case 'back':
                 #     print('A;LDNCALD;CALSD')
-                #     context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
-                #                              reply_markup=ReplyKeyboardRemove(True))
+                #     context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..', reply_markup=ReplyKeyboardRemove(True))
                 #     game_command(update, context)
                 case _:
                     match user_msg:
@@ -189,22 +186,19 @@ async def handle_message(update, context):
                             context.bot.send_message(chat_id=update.effective_chat.id,
                                                      text=f'{update.message.text} selected!',
                                                      reply_markup=ReplyKeyboardMarkup(
-                                                         [[KeyboardButton('Start')],
-                                                          [KeyboardButton('Back')]]))
+                                                         [[KeyboardButton('Start')], [KeyboardButton('Back')]]))
                         case 'never have i ever':
                             game_type = 'never have i ever'
                             context.bot.send_message(chat_id=update.effective_chat.id,
                                                      text=f'{update.message.text} selected!',
                                                      reply_markup=ReplyKeyboardMarkup(
-                                                         [[KeyboardButton('Start')],
-                                                          [KeyboardButton('Back')]]))
+                                                         [[KeyboardButton('Start')], [KeyboardButton('Back')]]))
                         case 'paranoia':
                             game_type = 'paranoia'
                             context.bot.send_message(chat_id=update.effective_chat.id,
                                                      text=f'{update.message.text} selected!',
                                                      reply_markup=ReplyKeyboardMarkup(
-                                                         [[KeyboardButton('Start')],
-                                                          [KeyboardButton('Back')]]))
+                                                         [[KeyboardButton('Start')], [KeyboardButton('Back')]]))
                         case "king's cup":
                             game_type = 'kings cup'
                             context.bot.send_message(chat_id=update.effective_chat.id,
@@ -230,7 +224,8 @@ async def handle_message(update, context):
 def error(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="An exception has occurred!\n\nIt seems as though my hosting service is blocked from using the APIs. Don't worry, I'm working on it ;]")
-    context.bot.send_message(chat_id=OWNER_ID, text=f'ERROR:\n\nUpdate:\n {update}\n\ncaused error\n\nContext:\n{context.error}')
+    context.bot.send_message(chat_id=OWNER_ID,
+                             text=f'ERROR:\n\nUpdate:\n {update}\n\ncaused error\n\nContext:\n{context.error}')
     print(f'Update {update} caused error {context.error}')
 
 
