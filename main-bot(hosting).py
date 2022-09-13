@@ -8,21 +8,16 @@ import requests
 import jokeapi
 import asyncio
 import random
-
 OWNER_ID = 391364421
 API_KEY = '5250260308:AAGbtvCGHuBZ72elNZ-xECuISkPUTuIPgqk'
 mode = ''
 game_type = ''
 td_option = ''
-
-
 def notify(update, context):
     dt = str(update['message']['date'])[:19]
     hour = str(int(dt[11:13]) + 8) if int(dt[11:13]) < 16 else '0' + str(int(dt[11:13]) - 16)
     sg_dt = dt[:11] + hour + dt[13:] + ' (GMT+8)'
     context.bot.send_message(chat_id=OWNER_ID, text=f"First name: {update['message']['chat']['first_name']}\nLast name: {update['message']['chat']['last_name']}\nID: {update['message']['chat']['id']}\nDate: {sg_dt}\nText: {update['message']['text']}")
-
-
 def start_command(update, context):
     notify(update, context)
     global mode
@@ -31,8 +26,6 @@ def start_command(update, context):
     mode, game_type, td_option = '', '', ''
     context.bot.send_message(chat_id=update.effective_chat.id, text='Enter a command to get started', reply_markup=ReplyKeyboardRemove(True))
     context.bot.send_message(chat_id=update.effective_chat.id, text='Command list is available on the bottom left side of your screen')
-
-
 def get_command(update, context):
     notify(update, context)
     global mode
@@ -47,8 +40,6 @@ def get_command(update, context):
 4. Cat fact
 ''', reply_markup=ReplyKeyboardMarkup([[KeyboardButton('Current datetime')], [KeyboardButton('ISS Coordinates')], [KeyboardButton('Joke')], [KeyboardButton('Cat fact')], [KeyboardButton('Back')]]))
     mode = 'get'
-
-
 def game_command(update, context):
     notify(update, context)
     global mode
@@ -63,12 +54,8 @@ def game_command(update, context):
 4. Paranoia
 5. Kings cup''', reply_markup=ReplyKeyboardMarkup([[KeyboardButton('Truth or Dare')], [KeyboardButton('Would you rather')], [KeyboardButton('Never have I ever')], [KeyboardButton('Paranoia')], [KeyboardButton("King's cup")], [KeyboardButton('Back')]]))
     mode = 'game'
-
-
 def call_handle_message(update, context):
     asyncio.run(handle_message(update, context))
-
-
 async def handle_message(update, context):
     notify(update, context)
     global mode
@@ -142,10 +129,6 @@ async def handle_message(update, context):
                             game_command(update, context)
                 case "king's cup":
                     context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..', reply_markup=ReplyKeyboardRemove(True))
-                # case 'back':
-                #     print('A;LDNCALD;CALSD')
-                #     context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..', reply_markup=ReplyKeyboardRemove(True))
-                #     game_command(update, context)
                 case _:
                     match user_msg:
                         case 'truth or dare':
@@ -169,7 +152,6 @@ async def handle_message(update, context):
                         case _:
                             context.bot.send_message(chat_id=update.effective_chat.id, text='Invalid input!')
                             mode = ''
-
         case _:
             greetings = ['hi', 'hey', 'hello', 'hiya']
             if user_msg in greetings:
@@ -178,13 +160,9 @@ async def handle_message(update, context):
                 context.bot.send_message(chat_id=update.effective_chat.id, text='Stupid pocari brocolli')
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id, text='I did not understand you')
-
-
 def error(update, context):
     context.bot.send_message(chat_id=OWNER_ID, text=f'ERROR:\n\nUpdate:\n {update}\n\ncaused error\n\nContext:\n{context.error}')
     print(f'Update {update} caused error {context.error}')
-
-
 def main():
     print('Bot started..')
     updater = telegram.ext.Updater(API_KEY, use_context=True)
@@ -196,6 +174,4 @@ def main():
     dp.add_error_handler(error)
     updater.start_polling()
     updater.idle()
-
-
 main()
