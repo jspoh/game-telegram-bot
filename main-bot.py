@@ -11,7 +11,8 @@ import jokeapi
 import asyncio
 import random
 
-API_KEY = '5250260308:AAGbtvCGHuBZ72elNZ-xECuISkPUTuIPgqk'
+OWNER_ID = 391364421
+API_KEY = ''
 mode = ''
 game_type = ''
 td_option = ''
@@ -21,7 +22,7 @@ def notify(update, context):
     dt = str(update['message']['date'])[:19]
     hour = str(int(dt[11:13]) + 8) if int(dt[11:13]) < 16 else '0' + str(int(dt[11:13]) - 16)
     sg_dt = dt[:11] + hour + dt[13:] + ' (GMT+8)'
-    context.bot.send_message(chat_id=391364421,
+    context.bot.send_message(chat_id=OWNER_ID,
                              text=f"First name: {update['message']['chat']['first_name']}\nLast name: {update['message']['chat']['last_name']}\nID: {update['message']['chat']['id']}\nDate: {sg_dt}\nText: {update['message']['text']}")
 
 
@@ -227,7 +228,7 @@ async def handle_message(update, context):
 
 
 def error(update, context):
-    context.bot.send_message(chat_id=391364421, text=f'ERROR:\n\nUpdate:\n {update}\n\ncaused error\n\nContext:\n{context.error}')
+    context.bot.send_message(chat_id=OWNER_ID, text=f'ERROR:\n\nUpdate:\n {update}\n\ncaused error\n\nContext:\n{context.error}')
     print(f'Update {update} caused error {context.error}')
 
 
