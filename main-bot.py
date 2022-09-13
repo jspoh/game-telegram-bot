@@ -11,7 +11,7 @@ import jokeapi
 import asyncio
 import random
 
-API_KEY = ''
+API_KEY = '5250260308:AAGbtvCGHuBZ72elNZ-xECuISkPUTuIPgqk'
 mode = ''
 game_type = ''
 td_option = ''
@@ -114,7 +114,6 @@ async def handle_message(update, context):
                     context.bot.send_message(chat_id=update.effective_chat.id,
                                              text="I could not understand your request. Please try again.")
         case 'game':
-            print(game_type)
             match game_type:
                 case 'truth or dare':
                     match user_msg:
@@ -170,11 +169,11 @@ async def handle_message(update, context):
                 case "king's cup":
                     context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
                                              reply_markup=ReplyKeyboardRemove(True))
-                case 'back':
-                    print('A;LDNCALD;CALSD')
-                    context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
-                                             reply_markup=ReplyKeyboardRemove(True))
-                    game_command(update, context)
+                # case 'back':
+                #     print('A;LDNCALD;CALSD')
+                #     context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
+                #                              reply_markup=ReplyKeyboardRemove(True))
+                #     game_command(update, context)
                 case _:
                     match user_msg:
                         case 'truth or dare':
@@ -214,21 +213,21 @@ async def handle_message(update, context):
                                                      reply_markup=ReplyKeyboardRemove(True))
                             start_command(update, context)
                         case _:
-                            update.message.reply_text('Invalid input!')
+                            context.bot.send_message(chat_id=update.effective_chat.id, text='Invalid input!')
                             mode = ''
 
         case _:
             greetings = ['hi', 'hey', 'hello', 'hiya']
             if user_msg in greetings:
-                update.message.reply_text('Hello!')
+                context.bot.send_message(chat_id=update.effective_chat.id, text='Hello!')
             elif user_msg == 'poop':
-                update.message.reply_text('Stupid pocari brocolli')
+                context.bot.send_message(chat_id=update.effective_chat.id, text='Stupid pocari brocolli')
             else:
-                update.message.reply_text('I did not understand you')
+                context.bot.send_message(chat_id=update.effective_chat.id, text='I did not understand you')
 
 
 def error(update, context):
-    update.message.reply_text(f'Update {update}\n\ncaused error\n\n{context.error}')
+    context.bot.send_message(chat_id=update.effective_chat.id, text=f'Update {update}\n\ncaused error\n\n{context.error}')
     print(f'Update {update} caused error {context.error}')
 
 
