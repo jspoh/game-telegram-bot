@@ -167,6 +167,7 @@ async def handle_message(update, context):
                 context.bot.send_message(chat_id=update.effective_chat.id, text='I did not understand you')
                 
 def error(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="An exception has occurred!\n\nIt seems as though my hosting service is blocked from using the APIs. Don't worry, I'm working on it ;]")
     context.bot.send_message(chat_id=OWNER_ID, text=f'ERROR:\n\nUpdate:\n {update}\n\ncaused error\n\nContext:\n{context.error}')
     print(f'Update {update} caused error {context.error}')
     
