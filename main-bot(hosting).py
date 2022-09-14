@@ -17,7 +17,7 @@ def notify(update, context):
     dt = str(update['message']['date'])[:19]
     hour = str(int(dt[11:13]) + 8) if int(dt[11:13]) < 16 else '0' + str(int(dt[11:13]) - 16)
     sg_dt = dt[:11] + hour + dt[13:] + ' (GMT+8)'
-    context.bot.send_message(chat_id=OWNER_ID, text=f"First name: {update['message']['chat']['first_name']}\nLast name: {update['message']['chat']['last_name']}\nID: {update['message']['chat']['id']}\nDate: {sg_dt}\nText: {update['message']['text']}")
+    context.bot.send_message(chat_id=OWNER_ID, text=f"Username: {update['message']['chat']['username']}\nFirst name: {update['message']['chat']['first_name']}\nLast name: {update['message']['chat']['last_name']}\nID: {update['message']['chat']['id']}\nDate: {sg_dt}\nText: {update['message']['text']}")
 
 def start_command(update, context):
     notify(update, context)
