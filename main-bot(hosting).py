@@ -1,6 +1,7 @@
 # for hosting
 # pip install python-telegram-bot, telegram-bot
 # from constants import API_KEY
+
 import telegram.ext
 from telegram import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, ReplyKeyboardRemove
 import datetime
@@ -90,7 +91,7 @@ async def handle_message(update, context):
                         context.bot.send_message(chat_id=update.effective_chat.id, text=joke["delivery"])
                 case 'cat fact':
                     response = requests.get('https://cat-fact.herokuapp.com/facts').json()
-                    rand = random.randint(0, len(response))
+                    rand = random.randint(0, len(response)-1)
                     context.bot.send_message(chat_id=update.effective_chat.id, text=response[rand]['text'])
                 case _:
                     context.bot.send_message(chat_id=update.effective_chat.id, text="I could not understand your request. Please try again.")
