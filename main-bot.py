@@ -4,18 +4,45 @@
 # pip install python-telegram-bot, telegram-bot
 # from constants import API_KEY
 import telegram.ext
-from telegram import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, ReplyKeyboardRemove
+from telegram import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, ReplyKeyboardRemove, ReplyMarkup
 import datetime
 import requests
 import jokeapi
 import asyncio
 import random
 
-OWNER_ID = 
-API_KEY = ''
+OWNER_ID = 391364421
+API_KEY = '5250260308:AAGbtvCGHuBZ72elNZ-xECuISkPUTuIPgqk'
 mode = ''
 game_type = ''
 td_option = ''
+card_types = [
+    'A\n\nMe! - You drink!',
+    '2\n\nSabotage! - Person on your left drinks!',
+    '3\n\nSabotage! - Person on your right drinks!',
+    '4\n\nLaw! - Set a rule that will last for the rest of the game. Whoever breaks it drink!',
+    '5\n\nMate! - Choose a partner. They will have to drink everytime you drink!',
+    '6\n\nCategory! - Choose an item category and go in a anti-clockwise direction with everyone naming a valid item in the category. First to fail drinks!',
+    '7\n\n7-UP! - Go clockwise with each person listing a number starting from 1 but you must replace the multiples of 7 with "UP". First to fail drinks!',
+    '8\n\nRhyme! - Come up with a word and go anti-clockwise with everybody saying a valid word that rhymes with your word. First to fail drinks!',
+    '9\n\nFight! - Rock paper scissors with the person sitting opposite you. Loser drinks!',
+    '10\n\nBreak! - Everyone gets to use the toilet!',
+    'J\n\nDicks! - Guys drink!',
+    'Q\n\nWhores! - Girls drink!',
+    "K\n\nRoyal chef! - Add an edible item into the king's cup!"
+]
+cards: list
+
+
+def set_cards():
+    card_list = []
+    for i in range(4):
+        card_list += [i for i in card_types]
+    card_list.remove("K\n\nRoyal chef! - Add an edible item into the king's cup!")
+    return card_list
+
+
+cards = set_cards()
 
 
 def notify(update, context):
@@ -39,7 +66,8 @@ def start_command(update, context):
                              reply_markup=ReplyKeyboardMarkup([
                                  # [KeyboardButton('/start')],
                                  [KeyboardButton('/get')],
-                                 [KeyboardButton('/game')]]))
+                                 [KeyboardButton('/game')],
+                                 [KeyboardButton('/help')]]))
 
 
 def get_command(update, context):
@@ -49,7 +77,7 @@ def get_command(update, context):
     global td_option
     mode, game_type, td_option = '', '', ''
     context.bot.send_message(chat_id=update.effective_chat.id, text='''What would you like to get?
-    
+
 1. Current datetime
 2. Internation Space Station(ISS) current coordinates
 3. Joke
@@ -67,13 +95,14 @@ def game_command(update, context):
     global td_option
     mode, game_type, td_option = '', '', ''
     context.bot.send_message(chat_id=update.effective_chat.id, text='''What would you like to play?
-    
+
 1. Truth or Dare
 2. Would you rather
 3. Never have I ever
 4. Paranoia
 5. Kings cup''', reply_markup=ReplyKeyboardMarkup(
-        [[KeyboardButton('Truth or Dare')], [KeyboardButton('Would you rather')], [KeyboardButton('Never have I ever')],
+        [[KeyboardButton('Truth or Dare')], [KeyboardButton('Would you rather')],
+         [KeyboardButton('Never have I ever')],
          [KeyboardButton('Paranoia')], [KeyboardButton("King's cup")], [KeyboardButton('Back')]]))
     mode = 'game'
 
@@ -112,9 +141,8 @@ async def handle_message(update, context):
                         context.bot.send_message(chat_id=update.effective_chat.id, text=joke["setup"])
                         context.bot.send_message(chat_id=update.effective_chat.id, text=joke["delivery"])
                 case 'cat fact':
-                    response = requests.get('https://cat-fact.herokuapp.com/facts').json()
-                    rand = random.randint(0, len(response)-1)
-                    context.bot.send_message(chat_id=update.effective_chat.id, text=response[rand]['text'])
+                    context.bot.send_message(chat_id=update.effective_chat.id,
+                                             text="I've removed support for this function as the api calls kept getting messed up")
                 case _:
                     context.bot.send_message(chat_id=update.effective_chat.id,
                                              text="I could not understand your request. Please try again.")
@@ -166,8 +194,19 @@ async def handle_message(update, context):
                                                      reply_markup=ReplyKeyboardRemove(True))
                             game_command(update, context)
                 case "king's cup":
-                    context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
-                                             reply_markup=ReplyKeyboardRemove(True))
+                    match user_msg:
+                        case 'draw card':
+                            if "K\n\nRoyal chef! - Add an edible item into the king's cup!" and "K\n\nRoyalty! - You are the final king! Eat/drink whatever that is in the cup prepared by your royal chefs!" not in cards:
+                                cards.append(
+                                    "K\n\nRoyalty! - You are the final king! Eat/drink whatever that is in the cup prepared by your royal chefs!")
+                            card_chosen = random.choice(cards)
+                            cards.remove(card_chosen)
+                            context.bot.send_message(chat_id=update.effective_chat.id, text=card_chosen,
+                                                     reply_markup=ReplyKeyboardMarkup([[KeyboardButton('Draw card')],
+                                                                                       [KeyboardButton('Back')]]))
+                        case 'back':
+                            context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
+                                                     reply_markup=ReplyKeyboardRemove(True))
                 # case 'back':
                 #     print('A;LDNCALD;CALSD')
                 #     context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..', reply_markup=ReplyKeyboardRemove(True))
@@ -200,9 +239,12 @@ async def handle_message(update, context):
                                                      reply_markup=ReplyKeyboardMarkup(
                                                          [[KeyboardButton('Start')], [KeyboardButton('Back')]]))
                         case "king's cup":
-                            game_type = 'kings cup'
+                            game_type = "king's cup"
+                            rules = ''.join([i + '\n \n' for i in card_types]).replace('\n\n', ' => ')
                             context.bot.send_message(chat_id=update.effective_chat.id,
-                                                     text="I'm still working on this one :)")
+                                                     text=rules,
+                                                     reply_markup=ReplyKeyboardMarkup(
+                                                         [[KeyboardButton('Draw card')], [KeyboardButton('Back')]]))
                         case 'back':
                             context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
                                                      reply_markup=ReplyKeyboardRemove(True))
@@ -224,10 +266,18 @@ async def handle_message(update, context):
 
 def error(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
-                             text="An exception has occurred!\n\nIt seems as though my hosting service is blocked from using the APIs. Don't worry, I'm working on it ;]")
+                             text="An exception has occurred!\n\nPlease inform the bot owner about this issue and the steps that caused it.")
     context.bot.send_message(chat_id=OWNER_ID,
                              text=f'ERROR:\n\nUpdate:\n {update}\n\ncaused error\n\nContext:\n{context.error}')
     print(f'Update {update} caused error {context.error}')
+
+
+def help_command(update, context):
+    update.message.reply_text('''Hello, thanks for using me! Enter a command to get started!
+    
+To use this bot in groups, create a group specifically just for this bot and grant admin access so that every member in the group could use it. If not, only the admin who activated this bot will be acknowledged.
+
+Please report all issues to the bot owner.''')
 
 
 def main():
@@ -237,6 +287,7 @@ def main():
     dp.add_handler(telegram.ext.CommandHandler('start', start_command))
     dp.add_handler(telegram.ext.CommandHandler('get', get_command))
     dp.add_handler(telegram.ext.CommandHandler('game', game_command))
+    dp.add_handler(telegram.ext.CommandHandler('help', help_command))
     dp.add_handler(telegram.ext.MessageHandler(telegram.ext.Filters.text, call_handle_message))
     dp.add_error_handler(error)
     updater.start_polling()
