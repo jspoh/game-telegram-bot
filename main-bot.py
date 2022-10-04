@@ -199,6 +199,7 @@ async def handle_message(update, context):
                 case "king's cup":
                     match user_msg:
                         case 'draw card':
+                            global cards
                             global final_K_added
                             if "K\n\nRoyal chef! - Add an edible item into the king's cup!" and "K\n\nRoyalty! - You are the final king! Eat/drink whatever that is in the cup prepared by your royal chefs!" not in cards and not final_K_added:
                                 cards.append(
@@ -220,6 +221,7 @@ async def handle_message(update, context):
                                                          reply_markup=ReplyKeyboardMarkup(
                                                              [[KeyboardButton('Draw card')],
                                                               [KeyboardButton('Back')]]))
+                                cards = set_cards()
                         case 'back':
                             context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
                                                      reply_markup=ReplyKeyboardRemove(True))
