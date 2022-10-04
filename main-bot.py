@@ -32,13 +32,16 @@ card_types = [
     "K\n\nRoyal chef! - Add an edible item into the king's cup!"
 ]
 cards: list
+final_K_added: bool
 
 
 def set_cards():
+    global final_K_added
     card_list = []
     for i in range(4):
         card_list += [i for i in card_types]
     card_list.remove("K\n\nRoyal chef! - Add an edible item into the king's cup!")
+    final_K_added = False
     return card_list
 
 
@@ -196,14 +199,27 @@ async def handle_message(update, context):
                 case "king's cup":
                     match user_msg:
                         case 'draw card':
-                            if "K\n\nRoyal chef! - Add an edible item into the king's cup!" and "K\n\nRoyalty! - You are the final king! Eat/drink whatever that is in the cup prepared by your royal chefs!" not in cards:
+                            global final_K_added
+                            if "K\n\nRoyal chef! - Add an edible item into the king's cup!" and "K\n\nRoyalty! - You are the final king! Eat/drink whatever that is in the cup prepared by your royal chefs!" not in cards and not final_K_added:
                                 cards.append(
                                     "K\n\nRoyalty! - You are the final king! Eat/drink whatever that is in the cup prepared by your royal chefs!")
+                                final_K_added = True
                             card_chosen = random.choice(cards)
                             cards.remove(card_chosen)
                             context.bot.send_message(chat_id=update.effective_chat.id, text=card_chosen,
                                                      reply_markup=ReplyKeyboardMarkup([[KeyboardButton('Draw card')],
                                                                                        [KeyboardButton('Back')]]))
+                            if not len(cards):
+                                context.bot.send_message(chat_id=update.effective_chat.id,
+                                                         text='That was the final card, the game ends!',
+                                                         reply_markup=ReplyKeyboardMarkup(
+                                                             [[KeyboardButton('Draw card')],
+                                                              [KeyboardButton('Back')]]))
+                                context.bot.send_message(chat_id=update.effective_chat.id,
+                                                         text="I'll reset the deck for you, select draw card to restart the game!",
+                                                         reply_markup=ReplyKeyboardMarkup(
+                                                             [[KeyboardButton('Draw card')],
+                                                              [KeyboardButton('Back')]]))
                         case 'back':
                             context.bot.send_message(chat_id=update.effective_chat.id, text='Returning..',
                                                      reply_markup=ReplyKeyboardRemove(True))
