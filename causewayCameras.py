@@ -9,7 +9,6 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-
 # MAKE IT SO THAT THE SELENIUM BROWSER DOES NOT POP OUT
 options = Options()
 options.add_argument("--headless")
@@ -39,9 +38,11 @@ class CausewayCameras:
         return img_src.get_attribute('src')
 
     def all_cameras(self):
-        return [self.wdls_to_jb(), self.wdls_to_bke(), self.view_from_tuas(), self.tuas_second_link()]
+        return {'View from Woodlands Causeway (Towards Johor': self.wdls_to_jb(),
+                'View from Woodlands Checkpoint (Towards BKE)': self.wdls_to_bke(),
+                'View from Tuas Checkpoint': self.view_from_tuas(),
+                'View from Second Link at Tuas': self.tuas_second_link()}
 
     def init(self):
         self._driver.get(
             'https://onemotoring.lta.gov.sg/content/onemotoring/home/driving/traffic_information/traffic-cameras/woodlands.html')
-

@@ -140,9 +140,11 @@ async def handle_message(update, context):
                         context.bot.send_message(chat_id=update.effective_chat.id, text=joke["setup"])
                         context.bot.send_message(chat_id=update.effective_chat.id, text=joke["delivery"])
                 case 'causeway cameras':
+                    context.bot.send_message(chat_id=update.effective_chat.id, text='Fetching data..')
                     cw_cctv.init()
-                    for img_url in cw_cctv.all_cameras():
-                        context.bot.send_photo(chat_id=update.effective_chat.id, photo=img_url)
+                    for key, value in cw_cctv.all_cameras().items():
+                        context.bot.send_photo(chat_id=update.effective_chat.id, photo=value)
+                        context.bot.send_message(chat_id=update.effective_chat.id, text=key)
                 case _:
                     context.bot.send_message(chat_id=update.effective_chat.id,
                                              text="I could not understand your request. Please try again.")
