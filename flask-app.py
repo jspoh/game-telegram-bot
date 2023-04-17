@@ -2,10 +2,10 @@ from flask import Flask, request, make_response
 import requests
 import datetime
 from causewayCameras import CausewayCameras
+import sqlalchemy as db
 
 app = Flask(__name__)
 cwCctv = CausewayCameras()
-cwCctv.init()
 
 
 def main():
@@ -38,19 +38,27 @@ def post():
 @app.route('/cw/<camera>', methods=['GET'])
 def getCauseway(camera: str):
     # query = request.args.get('q')
+
+    cwCctv.init()
     if not camera:
+        cwCctv.close_driver()
         return {'data': cwCctv.all_cameras()}
 
     match camera:
         case 'wdls-to-jb':
+            cwCctv.close_driver()
             return {'data': (cwCctv.wdls_to_jb())}
         case 'wdls-to-bke':
+            cwCctv.close_driver()
             return {'data': (cwCctv.wdls_to_bke())}
         case 'view-from-tuas':
+            cwCctv.close_driver()
             return {'data': (cwCctv.view_from_tuas())}
         case 'tuas-second-link':
+            cwCctv.close_driver()
             return {'data': (cwCctv.tuas_second_link())}
         case _:
+            cwCctv.close_driver()
             return {'data': (make_response(
                 {'error': 'Bad request, {} does not exist'.format(camera)}, 400))}
 
