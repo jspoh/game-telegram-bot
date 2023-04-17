@@ -16,25 +16,30 @@ options.add_argument("--headless")
 
 class CausewayCameras:
     def __init__(self):
-        self._driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        self._driver = webdriver.Chrome(service=Service(
+            ChromeDriverManager().install()), options=options)
 
     def close_driver(self):
         self._driver.close()
 
     def wdls_to_jb(self):
-        img_src = self._driver.find_element(By.XPATH, "//img[@alt='View from Woodlands Causeway (Towards Johor)']")
+        img_src = self._driver.find_element(
+            By.XPATH, "//img[@alt='View from Woodlands Causeway (Towards Johor)']")
         return img_src.get_attribute('src')
 
     def wdls_to_bke(self):
-        img_src = self._driver.find_element(By.XPATH, "//img[@alt='View from Woodlands Checkpoint (Towards BKE)']")
+        img_src = self._driver.find_element(
+            By.XPATH, "//img[@alt='View from Woodlands Checkpoint (Towards BKE)']")
         return img_src.get_attribute('src')
 
     def view_from_tuas(self):
-        img_src = self._driver.find_element(By.XPATH, "//img[@alt='View from Tuas Checkpoint']")
+        img_src = self._driver.find_element(
+            By.XPATH, "//img[@alt='View from Tuas Checkpoint']")
         return img_src.get_attribute('src')
 
     def tuas_second_link(self):
-        img_src = self._driver.find_element(By.XPATH, "//img[@alt='View from Second Link at Tuas']")
+        img_src = self._driver.find_element(
+            By.XPATH, "//img[@alt='View from Second Link at Tuas']")
         return img_src.get_attribute('src')
 
     def all_cameras(self):
