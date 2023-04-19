@@ -1,7 +1,7 @@
 from flask import Flask, request, make_response
 import requests
 import datetime
-from causewayCameras import CausewayCameras
+from causewayCameras.CausewayCameras import CausewayCameras
 # import sqlalchemy as db
 
 app = Flask(__name__)
@@ -147,4 +147,4 @@ def main():
 
 if __name__ == '__main__':
     pass
-    # main()
+    main()
