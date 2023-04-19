@@ -1,7 +1,7 @@
 from flask import Flask, request, make_response
-# import requests
-# import datetime
-# from util.causewayCameras import CausewayCameras
+import requests
+import datetime
+from util.causewayCameras import CausewayCameras
 # import sqlalchemy as db
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ app = Flask(__name__)
 #     return "wat"
 
 
-# cwCctv = CausewayCameras()
+cwCctv = CausewayCameras()
 
 
 # def main():
