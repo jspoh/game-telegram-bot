@@ -1,5 +1,5 @@
 from flask import Blueprint, make_response, request
-from api.causewayCameras.CausewayCameras import CausewayCameras
+from packages.causewayCameras.CausewayCameras import CausewayCameras
 
 causewayBp = Blueprint('cw', __name__)
 

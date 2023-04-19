@@ -10,6 +10,7 @@ Config
 
 OWNER_ID = 391364421
 API_KEY = '5250260308:AAGbtvCGHuBZ72elNZ-xECuISkPUTuIPgqk'
+ENDPOINT = 'https://game-telegram-bot-gules.vercel.app'
 
 allCards = '123456789TJQK'*4
 
@@ -127,6 +128,8 @@ async def messageHandler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = activeUsers[userId]
 
     if user.mode == 'get':
+        if msg == 'datetime':
+            data = await requests.get(ENDPOINT + '/datetime').data
 
 
 def main():
