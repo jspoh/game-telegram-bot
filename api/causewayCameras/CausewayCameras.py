@@ -14,6 +14,7 @@ options = Options()
 options.add_argument("--headless")
 
 
+# unable to run package on vercel
 class CausewayCameras:
     def __init__(self):
         self._driver = webdriver.Chrome(service=Service(
