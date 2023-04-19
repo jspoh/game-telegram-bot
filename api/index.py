@@ -1,7 +1,7 @@
 from flask import Flask, request, make_response
 import requests
 import datetime
-from causewayCameras import CausewayCameras
+from util.causewayCameras import CausewayCameras
 import sqlalchemy as db
 
 app = Flask(__name__)
