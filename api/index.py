@@ -1,27 +1,27 @@
 from flask import Flask, request, make_response
-import requests
-import datetime
-from util.causewayCameras import CausewayCameras
-import sqlalchemy as db
+# import requests
+# import datetime
+# from util.causewayCameras import CausewayCameras
+# import sqlalchemy as db
 
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
-def foo():
-    return "wat"
+# @app.route('/', methods=['GET'])
+# def foo():
+#     return "wat"
 
 
-cwCctv = CausewayCameras()
+# cwCctv = CausewayCameras()
 
 
 # def main():
 #     app.run(debug=True)
 
 
-# @app.route('/', methods=['GET'])
-# def get():
-#     return make_response({'active': True}, 200)
+@app.route('/', methods=['GET'])
+def get():
+    return make_response({'active': True}, 200)
 
 
 # '''
