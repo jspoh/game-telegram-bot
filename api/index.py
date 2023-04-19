@@ -12,7 +12,7 @@ app = Flask(__name__)
 #     return "wat"
 
 
-cwCctv = CausewayCameras()
+# cwCctv = CausewayCameras()
 
 
 # def main():
