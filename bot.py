@@ -6,13 +6,11 @@ import requests
 import json
 from random import randint
 from copy import deepcopy
+from constants import OWNER_ID, API_KEY
 
 '''
 Config
 '''
-
-OWNER_ID = 391364421
-API_KEY = '5250260308:AAGbtvCGHuBZ72elNZ-xECuISkPUTuIPgqk'
 ENDPOINT = 'https://game-telegram-bot-gules.vercel.app'
 
 card_types = [
