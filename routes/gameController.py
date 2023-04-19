@@ -4,8 +4,8 @@ import requests
 gameBp = Blueprint('game', __name__)
 
 
-@gameBp.route('/game/<game>', defaults={'option': None}, methods=['GET'])
-@gameBp.route('/game/<game>/<option>', methods=['GET'])
+@gameBp.route('/<game>', defaults={'option': None}, methods=['GET'])
+@gameBp.route('/<game>/<option>', methods=['GET'])
 def gameHandler(game: str, option: str):
     if game == 'tod' or game == 'truth-or-dare':
         if option == 't' or option == 'truth':
