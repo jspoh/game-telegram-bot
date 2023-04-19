@@ -61,8 +61,8 @@ def getCauseway(camera: str):
     #         return {'data': data}
     #     case _:
     #         cwCctv.close_driver()
-    #         return {'data': (make_response(
-    #             {'error': 'Bad request, {} does not exist'.format(camera)}, 400))}
+    #         return (make_response(
+    #             {'error': 'Bad request, {} does not exist'.format(camera)}, 400))
 
     if camera == 'wdls-to-jb':
         data = cwCctv.wdls_to_jb()
@@ -116,16 +116,29 @@ def gameHandler(game: str, option: str):
         if option == 't' or option == 'truth':
             truth = requests.get(
                 'https://api.truthordarebot.xyz/v1/truth').json()['question']
-            return {'data': (truth)}
+            return {'data': truth}
         elif option == 'd' or option == 'dare':
             dare = requests.get(
                 'https://api.truthordarebot.xyz/api/dare').json()['question']
-            return {'data': (dare)}
+            return {'data': dare}
 
     elif game == 'nhie' or game == 'never-have-i-ever':
         msg = requests.get(
             'https://api.truthordarebot.xyz/api/nhie').json()['question']
         return {'data': (msg)}
+
+    elif game == 'paranoia':
+        msg = requests.get(
+            'https://api.truthordarebot.xyz/api/paranoia').json()['question']
+        return {'data': msg}
+
+    elif game == 'wyr' or game == 'would-you-rather':
+        msg = requests.get(
+            'https://api.truthordarebot.xyz/api/wyr').json()['question']
+        return {'data': msg}
+
+    else:
+        return make_response({'error': f'Game {game} does not exist'}, 400)
 
 
 def main():
@@ -133,4 +146,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    pass
+    # main()
