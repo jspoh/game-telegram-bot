@@ -7,9 +7,9 @@ import sqlalchemy as db
 app = Flask(__name__)
 
 
-# @app.route('/')
-# def foo():
-#     return 'hello'
+@app.route('/')
+def foo():
+    return make_response({'active': True}, 200)
 
 
 cwCctv = CausewayCameras()
@@ -19,10 +19,9 @@ cwCctv = CausewayCameras()
 #     app.run(debug=True)
 
 
-@app.route('/', methods=['GET'])
-def get():
-    return 'test'
-    return make_response({'active': True}, 200)
+# @app.route('/', methods=['GET'])
+# def get():
+#     return make_response({'active': True}, 200)
 
 
 # '''
