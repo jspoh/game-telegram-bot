@@ -11,6 +11,9 @@ from constants import OWNER_ID, API_KEY
 '''
 Config
 '''
+
+# OWNER_ID =
+# API_KEY =
 ENDPOINT = 'https://game-telegram-bot-gules.vercel.app'
 
 card_types = [
