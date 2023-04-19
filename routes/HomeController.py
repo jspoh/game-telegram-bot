@@ -5,7 +5,15 @@ homeBp = Blueprint('home', __name__)
 
 @homeBp.route('/', methods=['GET'])
 def get():
-    return make_response({'active': True}, 200)
+    availablePaths = [
+        {'path': '/', 'methods': ['GET', 'POST'], 'subpaths': ['/']},
+        {'path': '/cw', 'methods': ['GET'], 'subpaths': [
+            '/', '/wdls-to-jb', '/wdls-to-bke', '/view-from-tuas', '/tuas-second-link']},
+        {'path': '/datetime', 'methods': ['GET'], 'subpaths': ['/']},
+        {'path': '/game', 'methods': ['GET'], 'subpaths': [
+            '/tod/t', '/tod/d', '/paranoia', '/nhie']},
+    ]
+    return make_response({'active': True, 'paths': availablePaths}, 200)
 
 
 @homeBp.route('/', methods=['POST'])
