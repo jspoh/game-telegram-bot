@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from pprint import pprint
 import time
 
 # MAKE IT SO THAT THE SELENIUM BROWSER DOES NOT POP OUT
@@ -51,3 +52,15 @@ class CausewayCameras:
     def init(self):
         self._driver.get(
             'https://onemotoring.lta.gov.sg/content/onemotoring/home/driving/traffic_information/traffic-cameras/woodlands.html')
+
+
+def test():
+    c = CausewayCameras()
+    c.init()
+    print(c.wdls_to_jb(), c.wdls_to_bke(), c.view_from_tuas(),
+          c.tuas_second_link(), c.all_cameras(), sep='\n\n')
+    c.close_driver()
+
+
+if __name__ == '__main__':
+    test()

@@ -1,18 +1,13 @@
 from flask import Flask, request, make_response
 import requests
 import datetime
-# from causewayCameras import CausewayCameras
+from causewayCameras import CausewayCameras
 # import sqlalchemy as db
 
 app = Flask(__name__)
 
 
-# @app.route('/', methods=['GET'])
-# def foo():
-#     return "wat"
-
-
-# cwCctv = CausewayCameras()
+cwCctv = CausewayCameras()
 
 
 @app.route('/', methods=['GET'])
@@ -37,33 +32,38 @@ def post():
     return make_response({'status': 'success'}, 201)
 
 
-# @app.route('/cw', defaults={'camera': None}, methods=['GET'])
-# @app.route('/cw/<camera>', methods=['GET'])
-# def getCauseway(camera: str):
-#     # query = request.args.get('q')
+@app.route('/cw', defaults={'camera': None}, methods=['GET'])
+@app.route('/cw/<camera>', methods=['GET'])
+def getCauseway(camera: str):
+    # query = request.args.get('q')
 
-#     cwCctv.init()
-#     if not camera:
-#         cwCctv.close_driver()
-#         return {'data': cwCctv.all_cameras()}
+    cwCctv.init()
+    if not camera:
+        data = cwCctv.all_cameras()
+        cwCctv.close_driver()
+        return {'data': data}
 
-#     match camera:
-#         case 'wdls-to-jb':
-#             cwCctv.close_driver()
-#             return {'data': (cwCctv.wdls_to_jb())}
-#         case 'wdls-to-bke':
-#             cwCctv.close_driver()
-#             return {'data': (cwCctv.wdls_to_bke())}
-#         case 'view-from-tuas':
-#             cwCctv.close_driver()
-#             return {'data': (cwCctv.view_from_tuas())}
-#         case 'tuas-second-link':
-#             cwCctv.close_driver()
-#             return {'data': (cwCctv.tuas_second_link())}
-#         case _:
-#             cwCctv.close_driver()
-#             return {'data': (make_response(
-#                 {'error': 'Bad request, {} does not exist'.format(camera)}, 400))}
+    match camera:
+        case 'wdls-to-jb':
+            data = cwCctv.wdls_to_jb()
+            cwCctv.close_driver()
+            return {'data': data}
+        case 'wdls-to-bke':
+            data = cwCctv.wdls_to_bke()
+            cwCctv.close_driver()
+            return {'data': data}
+        case 'view-from-tuas':
+            data = cwCctv.view_from_tuas()
+            cwCctv.close_driver()
+            return {'data': data}
+        case 'tuas-second-link':
+            data = cwCctv.tuas_second_link()
+            cwCctv.close_driver()
+            return {'data': data}
+        case _:
+            cwCctv.close_driver()
+            return {'data': (make_response(
+                {'error': 'Bad request, {} does not exist'.format(camera)}, 400))}
 
 #     if camera == 'wdls-to-jb':
 #         cwCctv.close_driver()
