@@ -7,7 +7,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-from pprint import pprint
 import time
 
 # MAKE IT SO THAT THE SELENIUM BROWSER DOES NOT POP OUT
