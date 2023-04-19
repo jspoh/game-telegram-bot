@@ -126,4 +126,5 @@ def gameHandler(game: str, option: str):
 
 
 if __name__ == '__main__':
-    main()
+    pass
+    # main()
