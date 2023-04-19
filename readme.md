@@ -11,3 +11,8 @@ fetch("/", {
   body: JSON.stringify({ test: true }),
 });
 ```
+
+hosting on:
+
+- vercel
+- ~pythonanywhere~

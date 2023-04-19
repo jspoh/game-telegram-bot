@@ -2,3 +2,4 @@ main-bot.py
 constants.py
 /.idea
 /__pycache__
+pythonanywhere.py

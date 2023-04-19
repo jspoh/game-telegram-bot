@@ -1,6 +1,5 @@
 from telegram import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, ReplyKeyboardRemove, Bot, Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
-import asyncio
 import logging
 import requests
 import json
@@ -142,11 +141,11 @@ Error handler
 '''
 
 
-def errorHandler(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id,
-                             text="An exception has occurred!\n\nPlease inform the bot owner about this issue and the steps that caused it.")
-    context.bot.send_message(chat_id=OWNER_ID,
-                             text=f'ERROR:\n\nUpdate:\n {update}\n\ncaused error\n\nContext:\n{context.error}')
+async def errorHandler(update, context):
+    await context.bot.send_message(chat_id=update.effective_chat.id,
+                                   text="An exception has occurred!\n\nPlease inform the bot owner about this issue and the steps that caused it.")
+    await context.bot.send_message(chat_id=OWNER_ID,
+                                   text=f'ERROR:\n\nUpdate:\n {update}\n\ncaused error\n\nContext:\n{context.error}')
     print(f'Update {update} caused error {context.error}')
 
 
