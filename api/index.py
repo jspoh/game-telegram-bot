@@ -7,9 +7,9 @@ import sqlalchemy as db
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def foo():
-    return make_response({'active': True}, 200)
+    return 'make_response({'active': True}, 200)'
 
 
 cwCctv = CausewayCameras()
