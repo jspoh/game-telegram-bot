@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def foo():
-    return "make_response({'active': True}, 200)"
+    return "wat"
 
 
 cwCctv = CausewayCameras()
